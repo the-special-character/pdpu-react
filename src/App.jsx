@@ -1,35 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useCallback, useMemo, useState } from "react";
+import Child from "./Child";
+import "./App.css";
+
+// string
+// boolean
+// number
+// bigInt
+// symbol
+
+// object
+// array
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [counter, setCounter] = useState(0);
+  const [name, setName] = useState("Yagnesh");
+
+  const increment = () => {
+    setCounter((val) => val + 1);
+  };
+
+  // memorize function
+  const testFn = useCallback(() => {
+    console.log("Calling test fn");
+  }, [])
+
+  const changeName = () => {
+    setName("Virat");
+  };
+
+  // Memorize your non-premitive data
+  const user = useMemo(() => ({ name: 'yagnesh', age: 36 }),  []) ;
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <p>{counter}</p>
+      <button type="button" onClick={increment}>
+        Increment Counter
+      </button>
+      <p>{name}</p>
+      <button type="button" onClick={changeName}>
+        Change Name
+      </button>
+
+    {/* whenever you pass function as props then wrape it in usecallback */}
+    {/* whenever you pass non-primitve data then use useMemo */}
+      <Child user={user} testFn={testFn} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
